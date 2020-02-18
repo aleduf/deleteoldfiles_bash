@@ -34,25 +34,27 @@ blocks_full=`stat -f --format=%b "$1"`
 par_ex=`bc <<< "100*$blocks_free/$blocks_full"`
 
 if [ "$par_ex" -ge "$par_fr" ]; then
- echo "No action"
- exit
+echo "No action"
+exit
 fi
 
-for i in $(ls -trR "$1" | grep "$2"); do
- echo ${i}
-# rm ${i}
+for i in "$(find "$1" -name '*.'"$2" -type f -print0 | xargs -0 stat -c "%Y %N" | sort -n)"; do
+fname="$(echo "$i" | cut -s -d ' ' -f 2)"
+echo "$fname"
+# rm "$i"
 
- #get free space
- blocks_free=`stat -f --format=%a "$1"`
- #get full space
- blocks_full=`stat -f --format=%b "$1"`
- #current decimal
- par_ex=`bc <<< "100*$blocks_free/$blocks_full"`
+#get free space
+blocks_free=`stat -f --format=%a "$1"`
+#current decimal
+par_ex=`bc <<< "100*$blocks_free/$blocks_full"`
 
- if [ "$par_ex" -ge "$par_fr" ]; then
-  echo "Done"
-  break
- fi
+echo "$par_ex" >> /tmp/loggg
+
+if [ "$par_ex" -ge "$par_fr" ]; then
+ echo "Done"
+ break
+fi
+
 done
 
 exit
