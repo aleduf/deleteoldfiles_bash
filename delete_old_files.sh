@@ -40,8 +40,8 @@ echo "No action"
 exit
 fi
 
-for fname in "$(find "$1" -name '*.'"$2" -type f -print0 | xargs -0 stat -c "%Y %N" | sort -n | cut -s -d ' ' -f 2)"
-do
+until [ "$par_ex" -ge "$par_fr" ]; do
+fname="$(find "$1" -name '*.'"$2" -type f -print0 | xargs -0 stat -c "%Y %N" | sort -n | head -n 1 | cut -s -d ' ' -f 2)"
 echo "$fname"
 # rm "$i"
 #get free space
@@ -49,12 +49,6 @@ blocks_free=$(stat -f --format=%a "$1")
 #current decimal
 par_ex=$(bc <<< "100*$blocks_free/$blocks_full")
 echo "$par_ex" >> /tmp/loggg
-if [ "$par_ex" -ge "$par_fr" ]; then
- echo "Done"
- break
-else
- echo "Next"
-fi
 done
 
 exit
