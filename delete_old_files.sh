@@ -43,7 +43,7 @@ fi
 until [ "$par_ex" -ge "$par_fr" ]; do
 fname="$(find "$1" -name '*.'"$2" -type f -print0 | xargs -0 stat -c "%Y %N" | sort -n | head -n 1 | cut -s -d ' ' -f 2)"
 echo "$fname"
-# rm "$i"
+rm "$i"
 #get free space
 blocks_free=$(stat -f --format=%a "$1")
 #current decimal
