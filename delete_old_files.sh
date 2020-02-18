@@ -33,6 +33,8 @@ blocks_full=`stat -f --format=%b "$1"`
 #current decimal
 par_ex=`bc <<< "100*$blocks_free/$blocks_full"`
 
+echo "$par_ex" > /tmp/loggg
+
 if [ "$par_ex" -ge "$par_fr" ]; then
 echo "No action"
 exit
