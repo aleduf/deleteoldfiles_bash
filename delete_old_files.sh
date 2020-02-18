@@ -40,15 +40,21 @@ echo "No action"
 exit
 fi
 
-until [ "$par_ex" -ge "$par_fr" ]; do
-fname="$(find "$1" -name '*.'"$2" -type f -print0 | xargs -0 stat -c "%Y %N" | sort -n | head -n 1 | cut -s -d ' ' -f 2)"
-echo "$fname"
-rm "$i"
+until [ "$par_ex" -ge "$par_fr" ]
+do
+#echo `find "$1" -name '*.'"$2" -type f -print0 | xargs -0 stat -c "%Y %N" | sort -n | head -n 1 | cut -s -d ' ' -f 2`
+find "$1" -name '*.'"$2" -type f -print0 | xargs -0 stat -c "%Y %N" | sort -n | head -n 1 | cut -s -d ' ' -f 2 | xargs rm
+
+#echo "$fname"
+#if [ -e "$fname" ]; then
+#systemd-cat -t DelOld echo "$fname"
+#rm -fv $fname
+#fi
 #get free space
 blocks_free=$(stat -f --format=%a "$1")
 #current decimal
 par_ex=$(bc <<< "100*$blocks_free/$blocks_full")
-systemd-cat -t DelOld echo "$par_ex"
+#systemd-cat -t DelOld echo "$par_ex"
 done
 
 exit
