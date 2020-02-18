@@ -33,7 +33,7 @@ blocks_full=`stat -f --format=%b "$1"`
 #current decimal
 par_ex=`bc <<< "100*$blocks_free/$blocks_full"`
 
-echo "$par_ex" > /tmp/loggg
+systemd-cat -t DelOld echo "$par_ex"
 
 if [ "$par_ex" -ge "$par_fr" ]; then
 echo "No action"
@@ -48,7 +48,7 @@ echo "$fname"
 blocks_free=$(stat -f --format=%a "$1")
 #current decimal
 par_ex=$(bc <<< "100*$blocks_free/$blocks_full")
-echo "$par_ex" >> /tmp/loggg
+systemd-cat -t DelOld echo "$par_ex"
 done
 
 exit
