@@ -39,8 +39,6 @@ exit
 fi
 
 for i in "$(find "$1" -name '*.'"$2" -type f -print0 | xargs -0 stat -c "%Y %N" | sort -n | cut -s -d ' ' -f 2)"; do
-#fname="$(echo "$i" | cut -s -d ' ' -f 2)"
-#echo "$fname"
 echo "$i"
 # rm "$i"
 
